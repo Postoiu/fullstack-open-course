@@ -8,6 +8,8 @@ const Button = ({ onClick, text }) => (
   </button>
 )
 
+const StatisticLine = ({ text, value }) => <p>{text} {value}</p>
+
 const Statistics = ({ good, neutral, bad }) => {
   const totalReviews = good + neutral + bad;
 
@@ -22,12 +24,12 @@ const Statistics = ({ good, neutral, bad }) => {
   return (
     <>
       <Header title='statistics' />
-      <p>good {good}</p>
-      <p>neutral {neutral}</p>
-      <p>bad {bad}</p>
-      <p>all {totalReviews}</p>
-      <p>average {average}</p>
-      <p>positive {positiveFeedback} %</p>
+      <StatisticLine text='good' value= {good} />
+      <StatisticLine text='neutral' value= {neutral} />
+      <StatisticLine text='bad' value= {bad} />
+      <StatisticLine text='all' value= {totalReviews} />
+      <StatisticLine text='average' value= {average} />
+      <StatisticLine text='positive' value= {positiveFeedback} />
     </>
   )
 }
