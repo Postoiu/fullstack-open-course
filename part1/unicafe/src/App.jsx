@@ -11,12 +11,12 @@ const Button = ({ onClick, text }) => (
 const Statistics = ({ good, neutral, bad }) => {
   const totalReviews = good + neutral + bad;
 
-  const average = () => {
-    return ((good * 1) + (neutral * 0) + (bad * -1)) / totalReviews || 0;
-  }
+  const average = ((good * 1) + (neutral * 0) + (bad * -1)) / totalReviews;
 
-  const positiveFeedback = () => {
-    return (good / totalReviews) * 100 || 0;
+  const positiveFeedback = (good / totalReviews) * 100;
+
+  if (good === 0 && neutral === 0 && bad === 0) {
+    return <p>No feedback given</p>
   }
 
   return (
@@ -26,8 +26,8 @@ const Statistics = ({ good, neutral, bad }) => {
       <p>neutral {neutral}</p>
       <p>bad {bad}</p>
       <p>all {totalReviews}</p>
-      <p>average {average()}</p>
-      <p>positive {positiveFeedback()} %</p>
+      <p>average {average}</p>
+      <p>positive {positiveFeedback} %</p>
     </>
   )
 }
