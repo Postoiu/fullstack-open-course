@@ -8,11 +8,7 @@ const Button = ({ onClick, text }) => (
   </button>
 )
 
-function App() {
-  const [good, setGood] = useState(0)
-  const [neutral, setNeutral] = useState(0)
-  const [bad, setBad] = useState(0)
-
+const Statistics = ({ good, neutral, bad }) => {
   const totalReviews = good + neutral + bad;
 
   const average = () => {
@@ -22,6 +18,24 @@ function App() {
   const positiveFeedback = () => {
     return (good / totalReviews) * 100 || 0;
   }
+
+  return (
+    <>
+      <Header title='statistics' />
+      <p>good {good}</p>
+      <p>neutral {neutral}</p>
+      <p>bad {bad}</p>
+      <p>all {totalReviews}</p>
+      <p>average {average()}</p>
+      <p>positive {positiveFeedback()} %</p>
+    </>
+  )
+}
+
+function App() {
+  const [good, setGood] = useState(0)
+  const [neutral, setNeutral] = useState(0)
+  const [bad, setBad] = useState(0)
 
   return (
     <div>
@@ -38,14 +52,11 @@ function App() {
         onClick={() => setBad(bad + 1)}
         text= 'bad'
       />
-
-      <Header title='statistics' />
-      <p>good {good}</p>
-      <p>neutral {neutral}</p>
-      <p>bad {bad}</p>
-      <p>all {totalReviews}</p>
-      <p>average {average()}</p>
-      <p>positive {positiveFeedback()} %</p>
+      <Statistics
+        good={good}
+        neutral={neutral}
+        bad={bad}
+      />
     </div>
   )
 }
