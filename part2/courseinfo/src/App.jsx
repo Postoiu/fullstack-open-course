@@ -19,11 +19,9 @@ const Content = ({ parts }) => {
 }
 
 const Total = ({ parts }) => {
-  let sum = 0;
-
-  for(let i = 0; i < parts.length; i++) {
-    sum += parts[i].exercises;
-  }
+  const sum = parts.reduce((acc, cur) => (
+    acc += cur.exercises
+  ), 0)
 
   return <h4>total of {sum} exercises</h4>
 }
