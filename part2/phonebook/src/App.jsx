@@ -42,7 +42,21 @@ function App() {
         setNewName('')
         setNewNumber('')
       })
+  }
 
+  const handleDelete = (id) => {
+    const personToDelete = persons.find(person => person.id === id)
+
+    if(!window.confirm(`Delete ${personToDelete.name}?`)) {
+      return
+    }
+    
+    personService
+      .deletePerson(id)
+      .then(deletedPerson => {
+        setPersons(persons.filter(person => person.id !== deletedPerson.id))
+        setFilteredPersons(persons.filter(person => person.id !== deletedPerson.id))
+      })
   }
 
   const handleNameChange = (event) => {
@@ -54,7 +68,8 @@ function App() {
   }
 
   const handleFilterChange = (event) => {
-    setFilterValue(event.target.value)
+    const userInput = event.target.value
+    setFilterValue(userInput)
 
     if(event.target.value === '') {
       setFilteredPersons([...persons]);
@@ -62,7 +77,7 @@ function App() {
     }
 
     setFilteredPersons(persons.filter(person => {
-      return person.name.toLowerCase().includes(filterValue.toLowerCase())
+      return person.name.toLowerCase().includes(userInput.toLowerCase())
     }))
   }
 
@@ -84,7 +99,10 @@ function App() {
       />
 
       <h3>Numbers</h3>
-      <Persons persons={filteredPersons} />
+      <Persons
+        persons={filteredPersons}
+        handleDelete={handleDelete}
+      />
     </div>
   )
 }
