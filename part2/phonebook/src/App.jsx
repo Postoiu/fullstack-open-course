@@ -1,5 +1,9 @@
 import { useState } from 'react'
 
+import Filter from './components/Filter';
+import PersonForm from './components/PersonForm';
+import Persons from './components/Persons';
+
 function App() {
   const [persons, setPersons] = useState([
     { name: 'Arto Hellas', number: '040-123456', id: 1 },
@@ -22,10 +26,12 @@ function App() {
 
     const newPerson = {
       name: newName,
-      number: newNumber
+      number: newNumber,
+      id: persons.length
     }
 
     setPersons(persons.concat(newPerson))
+    setFilteredPersons(filteredPersons.concat(newPerson))
     setNewName('')
     setNewNumber('')
   }
@@ -41,6 +47,11 @@ function App() {
   const handleFilterChange = (event) => {
     setFilterValue(event.target.value)
 
+    if(event.target.value === '') {
+      setFilteredPersons([...persons]);
+      return;
+    }
+
     setFilteredPersons(persons.filter(person => {
       return person.name.toLowerCase().includes(filterValue.toLowerCase())
     }))
@@ -49,30 +60,22 @@ function App() {
   return (
     <div>
       <h2>Phonebook</h2>
-      <div>
-        filter show with <input value={filterValue} onChange={handleFilterChange} />
-      </div>
+      <Filter
+        filterValue={filterValue}
+        handleFilterChange={handleFilterChange}
+      />
 
-      <h2>add a new</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          name: <input value={newName} onChange={handleNameChange} />
-        </div>
-        <div>
-          number: <input value={newNumber} onChange={handleNumberChange} />
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
-      <h2>Numbers</h2>
-      <div>
-        {filteredPersons.map(person => (
-          <p key={person.id}>
-            {person.name} {person.number}
-          </p>
-        ))}
-      </div>
+      <h3>add a new</h3>
+      <PersonForm
+        newName={newName}
+        newNumber={newNumber}
+        handleNameChange={handleNameChange}
+        handleNumberChange={handleNumberChange}
+        handleSubmit={handleSubmit}
+      />
+
+      <h3>Numbers</h3>
+      <Persons persons={filteredPersons} />
     </div>
   )
 }
