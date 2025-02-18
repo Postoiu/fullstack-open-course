@@ -82,6 +82,17 @@ function App() {
           setNotificationMsg(null)
         }, 5000)
       })
+      .catch(error => {
+        setNewName('')
+        setNewNumber('')
+        setNotificationMsg(error.response.data.message);
+        setIsError(true);
+
+        setTimeout(() => {
+          setNotificationMsg(null);
+          setIsError(false);
+        }, 5000)
+      })
   }
 
   const handleDelete = (id) => {
